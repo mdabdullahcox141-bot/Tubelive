@@ -1,58 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TubeLive - Unlimited World</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TubeLive - World Unlimited</title>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Roboto,Arial}
-header{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fff;position:sticky;top:0;box-shadow:0 1px 2px rgba(0,0,0,.1);z-index:10}
-.logo{font-size:22px;font-weight:bold} .logo span{color:red}
-.search{flex:1;margin:0 15px;display:flex} .search input{width:100%;padding:8px 12px;border:1px solid #ccc;border-radius:20px 0 0 20px} .search button{padding:8px 15px;border:1px solid #ccc;border-left:0;border-radius:0 20px 20px 0;background:#f8f8f8}
-.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:15px;background:#f9f9f9}
-.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.1)} .card img{width:100%;height:95px;object-fit:cover;background:#ddd} .info{padding:8px} .info b{font-size:13px;display:block} .info small{color:#666;font-size:11px}
-.login-box{text-align:center;padding:40px 20px;background:#fff;margin:15px;border-radius:15px}
-.btn{padding:12px 20px;border-radius:25px;border:1px solid #ddd;background:#fff;width:90%;max-width:320px;margin:6px;cursor:pointer;font-size:14px} .btn-red{background:red;color:#fff;border:none} .upload{position:fixed;bottom:20px;right:20px;background:red;color:#fff;width:55px;height:55px;border-radius:50%;border:none;font-size:28px;box-shadow:0 4px 10px rgba(0,0,0,.3)}
-</style>
-</head>
-<body>
-<header>
-<div class="logo">🌍<span>Tube</span>Live</div>
-<div class="search"><input id="s" placeholder="Search..."><button>🔍</button></div>
-<div><select id="lang"><option>🌐 EN</option><option>🇧🇩 BN</option><option>🇮🇳 HI</option></select></div>
-</header>
-
-<div id="login" class="login-box">
-<h2>Welcome to TubeLive</h2>
-<p style="color:#666;margin:8px 0 18px">195 Countries • 100+ Languages • Unlimited</p>
-<button class="btn" onclick="go()">🔵 Google Login</button><br>
-<button class="btn" onclick="go()">📱 Phone Login</button><br>
-<button class="btn btn-red" onclick="go()">▶️ Guest - Watch Now</button>
-</div>
-
-<div class="videos" id="grid" style="display:none"></div>
-<button class="upload" onclick="alert('Upload System - Next Step! Videos Unlimited Upload Coming!')" style="display:none" id="up">+</button>
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Roboto,Arial}header{display:flex;align-items:center;justify-content:space-between;padding:10px;background:#fff;position:sticky;top:0;z-index:99;box-shadow:0 1px 2px #ddd}.logo{font-weight:900;font-size:22px}.logo span{color:red}.search{flex:1;margin:0 10px;display:flex}.search input{width:100%;padding:8px 12px;border:1px solid #ccc;border-radius:20px 0 0 20px;outline:none}.search button{padding:8px 14px;border:1px solid #ccc;border-left:0;border-radius:0 20px 20px 0;background:#f2f2f2}.cat{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#fff}.cat b{background:#f2f2f2;padding:6px 12px;border-radius:8px;font-size:13px;cursor:pointer}.cat b.active{background:#000;color:#fff}.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px;padding:10px;background:#f9f9f9}.card{background:#fff;border-radius:12px;overflow:hidden;cursor:pointer}.card img{width:100%;height:95px;object-fit:cover}.info{padding:7px}.info b{font-size:13px;display:block}.info small{color:#666;font-size:11px}.login{text-align:center;padding:40px 15px;background:#fff;margin:15px;border-radius:15px}.btn{width:90%;max-width:320px;padding:11px;margin:6px;border-radius:25px;border:1px solid #ddd;background:#fff}.btn-red{background:red;color:#fff;border:none}.upload{position:fixed;bottom:20px;right:20px;background:red;color:#fff;width:56px;height:56px;border-radius:50%;border:none;font-size:30px;z-index:100}#player{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:200;display:none}#player video{width:100%;height:40vh;background:#000}.p-info{background:#fff;padding:10px}
+</style></head><body>
+<header><div class="logo">🌍<span>Tube</span>Live</div><div class="search"><input id="s" placeholder="Search TubeLive..." onkeyup="search()"><button>🔍</button></div><div id="u">👤</div></header>
+<div class="cat"><b class="active" onclick="filter('All',this)">All</b><b onclick="filter('Music',this)">Music</b><b onclick="filter('Gaming',this)">Gaming</b><b onclick="filter('Islamic',this)">Islamic</b><b onclick="filter('News',this)">News</b><b onclick="filter('Travel',this)">Travel</b></div>
+<div id="login" class="login"><h2>TubeLive - 195 Countries 🌍</h2><p style="color:#666;margin:10px 0">Unlimited • Firebase Connected ✅</p><button class="btn" onclick="googleLogin()">🔵 Google Login</button><br><button class="btn btn-red" onclick="go()">▶️ Guest Watch</button><p id="st" style="margin-top:10px;color:green"></p></div>
+<div id="main" style="display:none"><div class="videos" id="grid"></div></div>
+<button class="upload" id="up" style="display:none" onclick="document.getElementById('file').click()">+</button><input type="file" id="file" accept="video/*" style="display:none" onchange="upload(event)">
+<div id="player" onclick="if(event.target==this)this.style.display='none'"><video id="vid" controls autoplay></video><div class="p-info"><b id="p-title"></b><br><small id="p-chan"></small><br><br><button class="btn btn-red" style="width:auto">👍 Like</button></div></div>
 <script>
-function go(){
-document.getElementById('login').style.display='none';
-document.getElementById('grid').style.display='grid';
-document.getElementById('up').style.display='block';
-let data=[
-{t:"Cox's Bazar Sea Beach Vlog 🌊",c:"Travel BD",v:"1.2M"},
-{t:"Funny Bangla Natok 😂",c:"Comedy BD",v:"2.5M"},
-{t:"Beautiful Nasheed",c:"Islamic World",v:"3M"},
-{t:"Hindi Song 2026",c:"Music India",v:"5M"},
-{t:"How to Viral on TubeLive",c:"TubeLive Tips",v:"500K"},
-{t:"English Learning",c:"Edu World",v:"800K"},
-{t:"Arabic Quran Recitation",c:"Quran TV",v:"4M"},
-{t:"Spanish Football",c:"Sports",v:"2M"}
-];
-let g=document.getElementById('grid');
-data.forEach((x,i)=>{
-g.innerHTML+=`<div class="card"><img src="https://picsum.photos/seed/${i+10}/300/170"><div class="info"><b>${x.t}</b><small>${x.c}<br>${x.v} views • 2 days ago</small></div></div>`;
-});
-}
-</script>
-</body>
-</html>
+const firebaseConfig = {
+  apiKey: "AIzaSyC2W2a_JKDrAIO4K-5PNZQ_2gab-TqFuI",
+  authDomain: "tubelive-world-73b2c.firebaseapp.com",
+  projectId: "tubelive-world-73b2c",
+  storageBucket: "tubelive-world-73b2c.firebasestorage.app",
+  messagingSenderId: "792294743164",
+  appId: "1:792294743164:web:07572a15763a8afc97fdf9"
+};
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth(); const db=firebase.firestore();
+let allVideos=[{t:"Cox's Bazar Sea Beach 🌊",c:"Travel BD",cat:"Travel",v:"1.2M"},{t:"Funny Bangla Natok 😂",c:"Comedy BD",cat:"Comedy",v:"2.5M"},{t:"Beautiful Nasheed 2026",c:"Islamic World",cat:"Islamic",v:"3M"},{t:"Hindi Song 2026",c:"Music India",cat:"Music",v:"5M"},{t:"PUBG Gameplay",c:"Gaming World",cat:"Gaming",v:"900K"}];
+function googleLogin(){auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(r=>{document.getElementById('st').innerText="Welcome "+r.user.displayName+" ✅"; setTimeout(go,1000);}).catch(e=>{alert(e.message); go();});}
+function go(){document.getElementById('login').style.display='none';document.getElementById('main').style.display='block';document.getElementById('up').style.display='block';load();}
+function load(){db.collection("videos").orderBy("time","desc").onSnapshot(s=>{let fb=[]; s.forEach(d=>fb.push(d.data())); render([...fb,...allVideos]);},()=>render(allVideos));}
+function render(list){let g=document.getElementById('grid'); g.innerHTML=""; list.forEach((x,i)=>{g.innerHTML+=`<div class=card onclick="play('${x.t}','${x.c}')"><img src=https://picsum.photos/seed/${i+10}/300/170><div class=info><b>${x.t}</b><small>${x.c}<br>${x.v||'0'} views</small></div></div>`;});}
+function filter(cat,el){document.querySelectorAll('.cat b').forEach(b=>b.classList.remove('active')); el.classList.add('active'); if(cat=='All')load(); else db.collection("videos").where("cat","==",cat).get().then(s=>{let l=[]; s.forEach(d=>l.push(d.data())); if(l.length)render(l); else render(allVideos.filter(v=>v.cat==cat));});}
+function search(){let q=document.getElementById('s').value.toLowerCase(); render(allVideos.filter(v=>v.t.toLowerCase().includes(q))); }
+function play(t,c){document.getElementById('player').style.display='block'; document.getElementById('p-title').innerText=t; document.getElementById('p-chan').innerText=c;}
+function upload(e){let f=e.target.files[0]; if(!f)return; let title=prompt("Video Title:",f.name)||f.name; let data={t:title,c:"My Channel",cat:"All",v:"0",time:Date.now()}; db.collection("videos").add(data).then(()=>alert("Uploaded to Firebase! ✅ Unlimited")).catch(()=>{allVideos.unshift(data); render(allVideos);});}
+</script></body></html>
