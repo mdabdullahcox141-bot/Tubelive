@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TubeLive - Unlimited World</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Roboto,Arial}
+header{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fff;position:sticky;top:0;box-shadow:0 1px 2px rgba(0,0,0,.1);z-index:10}
+.logo{font-size:22px;font-weight:bold} .logo span{color:red}
+.search{flex:1;margin:0 15px;display:flex} .search input{width:100%;padding:8px 12px;border:1px solid #ccc;border-radius:20px 0 0 20px} .search button{padding:8px 15px;border:1px solid #ccc;border-left:0;border-radius:0 20px 20px 0;background:#f8f8f8}
+.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:15px;background:#f9f9f9}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.1)} .card img{width:100%;height:95px;object-fit:cover;background:#ddd} .info{padding:8px} .info b{font-size:13px;display:block} .info small{color:#666;font-size:11px}
+.login-box{text-align:center;padding:40px 20px;background:#fff;margin:15px;border-radius:15px}
+.btn{padding:12px 20px;border-radius:25px;border:1px solid #ddd;background:#fff;width:90%;max-width:320px;margin:6px;cursor:pointer;font-size:14px} .btn-red{background:red;color:#fff;border:none} .upload{position:fixed;bottom:20px;right:20px;background:red;color:#fff;width:55px;height:55px;border-radius:50%;border:none;font-size:28px;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">🌍<span>Tube</span>Live</div>
+<div class="search"><input id="s" placeholder="Search..."><button>🔍</button></div>
+<div><select id="lang"><option>🌐 EN</option><option>🇧🇩 BN</option><option>🇮🇳 HI</option></select></div>
+</header>
+
+<div id="login" class="login-box">
+<h2>Welcome to TubeLive</h2>
+<p style="color:#666;margin:8px 0 18px">195 Countries • 100+ Languages • Unlimited</p>
+<button class="btn" onclick="go()">🔵 Google Login</button><br>
+<button class="btn" onclick="go()">📱 Phone Login</button><br>
+<button class="btn btn-red" onclick="go()">▶️ Guest - Watch Now</button>
+</div>
+
+<div class="videos" id="grid" style="display:none"></div>
+<button class="upload" onclick="alert('Upload System - Next Step! Videos Unlimited Upload Coming!')" style="display:none" id="up">+</button>
+
+<script>
+function go(){
+document.getElementById('login').style.display='none';
+document.getElementById('grid').style.display='grid';
+document.getElementById('up').style.display='block';
+let data=[
+{t:"Cox's Bazar Sea Beach Vlog 🌊",c:"Travel BD",v:"1.2M"},
+{t:"Funny Bangla Natok 😂",c:"Comedy BD",v:"2.5M"},
+{t:"Beautiful Nasheed",c:"Islamic World",v:"3M"},
+{t:"Hindi Song 2026",c:"Music India",v:"5M"},
+{t:"How to Viral on TubeLive",c:"TubeLive Tips",v:"500K"},
+{t:"English Learning",c:"Edu World",v:"800K"},
+{t:"Arabic Quran Recitation",c:"Quran TV",v:"4M"},
+{t:"Spanish Football",c:"Sports",v:"2M"}
+];
+let g=document.getElementById('grid');
+data.forEach((x,i)=>{
+g.innerHTML+=`<div class="card"><img src="https://picsum.photos/seed/${i+10}/300/170"><div class="info"><b>${x.t}</b><small>${x.c}<br>${x.v} views • 2 days ago</small></div></div>`;
+});
+}
+</script>
+</body>
+</html>
