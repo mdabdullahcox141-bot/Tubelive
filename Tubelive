@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TubeLive - Unlimited World Videos</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Roboto,Arial}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.logo{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:bold}
+.logo span{color:red}
+.search{flex:0.6;display:flex}
+.search input{width:100%;padding:10px 15px;border:1px solid #ccc;border-radius:20px 0 0 20px;outline:none}
+.search button{padding:10px 20px;border:1px solid #ccc;border-left:0;border-radius:0 20px 20px 0;background:#f8f8f8;cursor:pointer}
+.user{display:flex;gap:15px;align-items:center}
+.lang{padding:6px 12px;border:1px solid #ddd;border-radius:20px;cursor:pointer}
+.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding:20px;background:#f9f9f9}
+.card{background:#fff;border-radius:12px;overflow:hidden;cursor:pointer;transition:0.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+.card img{width:100%;height:180px;object-fit:cover;background:#ddd}
+.info{padding:10px}
+.info h4{font-size:15px;margin-bottom:5px}
+.info p{font-size:13px;color:#606060}
+.upload-btn{position:fixed;bottom:20px;right:20px;background:red;color:#fff;border:none;width:60px;height:60px;border-radius:50%;font-size:30px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.3)}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">🌍<span>Tube</span>Live</div>
+<div class="search"><input id="search" placeholder="Search videos..."><button>🔍</button></div>
+<div class="user">
+<select class="lang" id="lang"><option>🌐 English</option><option>🇧🇩 বাংলা</option><option>🇮🇳 Hindi</option><option>🇸🇦 Arabic</option><option>🇪🇸 Español</option></select>
+<button style="background:red;color:#fff;border:none;padding:8px 16px;border-radius:20px;cursor:pointer" onclick="alert('Login - Google/Phone Coming Soon!')">Login</button>
+</div>
+</header>
+
+<div class="videos" id="videoGrid">
+<!-- Videos will come here -->
+</div>
+
+<button class="upload-btn" onclick="alert('Upload System - Next Step!')">+</button>
+
+<script>
+const videos = [
+{title:"My First Vlog - Cox's Bazar 🌊",channel:"Rahim Vlogs",views:"1.2M",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e"},
+{title:"How to Viral on YouTube 2026",channel:"TubeLive Tips",views:"500K",img:"https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0"},
+{title:"Bengali Funny Video 😂",channel:"Comedy BD",views:"2.1M",img:"https://images.unsplash.com/photo-1516450360452-9312f5e86fc7"},
+{title:"Learn English in 10 Days",channel:"English Pro",views:"800K",img:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3"},
+{title:"Arabic Nasheed Beautiful",channel:"Nasheed World",views:"3M",img:"https://images.unsplash.com/photo-1519681393784-d120267933ba"},
+{title:"Hindi Song 2026",channel:"Music India",views:"5M",img:"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f"}
+];
+const grid=document.getElementById('videoGrid');
+videos.forEach(v=>{
+grid.innerHTML+=`<div class="card"><img src="${v.img}"><div class="info"><h4>${v.title}</h4><p>${v.channel}</p><p>${v.views} views • 2 days ago</p></div></div>`
+});
+document.getElementById('lang').addEventListener('change',function(){
+if(this.value.includes('বাংলা')){document.getElementById('search').placeholder="ভিডিও খুঁজুন..."; alert("ভাষা বাংলা হলো! 🇧🇩")}
+});
+</script>
+</body>
+</html>
