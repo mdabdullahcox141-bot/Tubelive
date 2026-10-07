@@ -1,77 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TubeLive World - Cox's Bazar</title>
+<title>TubeLive World - YouTube Style</title>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Roboto,Arial}
-.header{display:flex;align-items:center;justify-content:space-between;padding:10px;background:white;position:sticky;top:0;z-index:10;box-shadow:0 1px 3px #ddd}
-.logo{font-weight:bold;font-size:20px;color:red}.logo span{color:black}
-.search{flex:1;margin:0 10px}.search input{width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:20px}
-.categories{display:flex;gap:8px;overflow-x:auto;padding:10px;background:white;white-space:nowrap;border-bottom:1px solid #eee}
-.cat{padding:6px 12px;border-radius:20px;border:1px solid #ddd;background:#f1f1f1;cursor:pointer;font-size:13px}
-.cat.active{background:black;color:white}
-.tabs{display:flex;background:white}
-.tab{flex:1;padding:10px;text-align:center;font-weight:bold;border-bottom:3px solid transparent;cursor:pointer}
-.tab.active{border-color:red;color:red}
-#grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
-@media(min-width:600px){#grid{grid-template-columns:1fr 1fr 1fr}}
-.card{background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 2px #ddd;cursor:pointer}
-.card.thumb{width:100%;height:110px;background:#000;object-fit:cover}
-.card.info{padding:8px}.card.info b{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.btns{display:flex;gap:5px;margin-top:5px}
-.btns button{flex:1;padding:5px;font-size:11px;border:none;border-radius:5px;cursor:pointer}
-.dl{background:green;color:white}.like{background:#eee}
-#player{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:none;z-index:20;padding:10px}
-#player video{width:100%;max-height:80vh;margin-top:40px}
-#upload{position:fixed;bottom:20px;right:20px;width:50px;height:50px;background:red;color:white;border-radius:50%;border:none;font-size:30px;cursor:pointer;box-shadow:0 2px 5px #000}
+body{background:#0f0f0f;color:white}
+.header{display:flex;align-items:center;justify-content:space-between;padding:10px;background:#0f0f0f;position:sticky;top:0;z-index:10}
+.logo{font-weight:bold;font-size:22px;color:red}.logo span{color:white}
+.search{flex:1;margin:0 15px}.search input{width:100%;padding:9px 15px;border:1px solid #333;border-radius:20px;background:#121212;color:white}
+.cat-bar{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#0f0f0f;white-space:nowrap;scrollbar-width:none}
+.cat{padding:6px 12px;border-radius:8px;background:#272727;color:white;cursor:pointer;font-size:14px;border:none}
+.cat.active{background:white;color:black}
+.tabs{display:flex;background:#0f0f0f;border-bottom:1px solid #333}
+.tab{flex:1;padding:12px;text-align:center;font-weight:bold;cursor:pointer;color:#aaa}
+.tab.active{color:white;border-bottom:2px solid white}
+#grid{display:grid;grid-template-columns:1fr;gap:15px;padding:10px}
+@media(min-width:600px){#grid{grid-template-columns:1fr 1fr}}
+.card{background:#0f0f0f;border-radius:12px;overflow:hidden;cursor:pointer}
+.thumb{position:relative;width:100%;height:200px;background:#000;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.time{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.8);padding:2px 6px;border-radius:4px;font-size:12px}
+.bangla-text{position:absolute;bottom:40px;left:10px;right:10px;text-align:center;font-weight:900;font-size:22px;color:yellow;text-shadow:2px 2px 4px black;line-height:1.2}
+.info{padding:10px;display:flex;gap:10px}
+.avatar{width:36px;height:36px;border-radius:50%;background:red}
+.info b{font-size:14px;line-height:1.3;display:block}
+.info small{color:#aaa;font-size:12px}
+#player{position:fixed;top:0;left:0;width:100%;height:100%;background:black;display:none;z-index:20}
+#upload{position:fixed;bottom:20px;right:20px;width:55px;height:55px;background:red;color:white;border-radius:50%;border:none;font-size:30px;z-index:5}
 </style>
 </head>
 <body>
 <div class="header">
-<div class="logo">▶️ <span>Tube</span><span style="color:red">Live</span></div>
-<div class="search"><input id="s" placeholder="Search TubeLive..." oninput="search(this.value)"></div>
-<div onclick="settings()">⚙️</div>
+<div class="logo">▶️ TubeLive</div>
+<div class="search"><input placeholder="Search TubeLive..." oninput="search(this.value)"></div>
+<div>🔔 🔍</div>
 </div>
 
-<div class="categories">
+<div class="cat-bar">
 <div class="cat active" onclick="filter('All',this)">All</div>
+<div class="cat" onclick="filter('Drama',this)">🎭 Drama</div>
 <div class="cat" onclick="filter('Music',this)">🎵 Music</div>
 <div class="cat" onclick="filter('Life',this)">❤️ Life</div>
 <div class="cat" onclick="filter('Home',this)">🏠 Home</div>
 <div class="cat" onclick="filter('Comedy',this)">😂 Comedy</div>
 <div class="cat" onclick="filter('News',this)">📰 News</div>
 <div class="cat" onclick="filter('Travel',this)">✈️ Travel</div>
-<div class="cat" onclick="filter('Game',this)">🎮 Game</div>
+<div class="cat" onclick="filter('Gaming',this)">🎮 Gaming</div>
+<div class="cat" onclick="filter('Islamic',this)">☪️ Islamic</div>
 </div>
 
 <div class="tabs">
-<div class="tab active" onclick="filterType('All',this)">🎬 Long</div>
-<div class="tab" onclick="filterType('short',this)">⚡ Shorts</div>
+<div class="tab active" onclick="filterType('All',this)">Home</div>
+<div class="tab" onclick="filterType('long',this)">Long</div>
+<div class="tab" onclick="filterType('short',this)">Shorts</div>
 </div>
 
-<div id="login" style="text-align:center;padding:20px">
-<h2>TubeLive World - 195 Countries</h2>
-<p style="color:#666;margin:10px">Unlimited Firebase Video Platform</p>
-<button onclick="go()" style="padding:10px 20px;background:red;color:white;border:none;border-radius:20px">▶️ Start Watching (No Channel Needed)</button>
+<div id="login" style="text-align:center;padding:30px">
+<h2>TubeLive World - Cox's Bazar to 195 Countries</h2>
+<p style="color:#aaa;margin:10px">Drama | Music | Life | Home | YouTube Style</p>
+<button onclick="go()" style="padding:12px 25px;background:white;color:black;border:none;border-radius:20px;font-weight:bold">▶️ Start Watching</button>
 </div>
 
-<div id="main" style="display:none">
-<div id="grid"></div>
-</div>
-
+<div id="main" style="display:none"><div id="grid"></div></div>
 <button id="upload" onclick="document.getElementById('file').click()">+</button>
 <input type="file" id="file" accept="video/*" style="display:none" onchange="upload(this)">
 
 <div id="player" onclick="if(event.target==this)this.style.display='none'">
-<video id="vid" controls autoplay></video>
-<div id="p-title" style="color:white;padding:10px;font-weight:bold"></div>
-<button onclick="downloadCurrent()" style="margin:10px;padding:8px 15px;background:green;color:white;border:none;border-radius:20px">📥 Free Download to Gallery</button>
+<div style="padding:10px;color:white" onclick="document.getElementById('player').style.display='none'">⬇️ Close</div>
+<video id="vid" controls autoplay style="width:100%;max-height:70vh"></video>
+<div id="p-title" style="padding:15px;font-weight:bold"></div>
+<div style="padding:0 15px"><button onclick="alert('📥 Free Download to Gallery!')" style="padding:8px 15px;background:green;color:white;border:none;border-radius:20px">📥 Downloaded</button></div>
 </div>
 
 <script>
@@ -84,53 +88,50 @@ messagingSenderId: "79229473164",
 appId: "1:79229473164:web:0757a15763a8cf7d9f39"
 };
 firebase.initializeApp(firebaseConfig);
-const auth=firebase.auth(); const db=firebase.firestore();
 
 let allVideos=[
-{t:"Cox's Bazar Sea Beach 🌊",c:"Travel",v:"long",u:"1.2M"},
-{t:"Funny Bangla Natok 😂",c:"Comedy BD",v:"short",u:"500k"},
-{t:"Home Cooking Tips",c:"Home",v:"long",u:"2k"},
-{t:"My Village Life",c:"Life",v:"short",u:"10k"}
+{t:"ডেলিভারি ম্যানের আসল পরিচয় জেনে অবাক সবাই! 😱👑 [BANGLA DRAMA]",c:"Drama",v:"long",time:"15:56",views:"18k views • 1 week ago",ch:"Adnan Ai Story"},
+{t:"দুনিয়া টাকার গোলাম ৩৯ | Prank King | Bangla Natok 2026",c:"Drama",v:"long",time:"38:03",views:"1.9M views • 1 day ago",ch:"Prank King Entertainment"},
+{t:"Cox's Bazar Sea Beach - Travel Vlog 🌊",c:"Travel",v:"long",time:"10:12",views:"1.2M views",ch:"TubeLive"},
+{t:"Funny Bangla Natok - Village Comedy",c:"Comedy",v:"short",time:"0:45",views:"500k views",ch:"TubeLive"},
+{t:"My Home - Cooking & Life",c:"Home",v:"long",time:"12:30",views:"2k views",ch:"TubeLive"},
+{t:"My Village Life Story - Cox's Bazar",c:"Life",v:"short",time:"0:58",views:"10k views",ch:"TubeLive"}
 ];
-let currentType='All'; let currentCat='All'; let currentVideoUrl='';
+let curCat='All';let curType='All';
 
 function go(){document.getElementById('login').style.display='none';document.getElementById('main').style.display='block';render(allVideos)}
-function filter(cat,el){document.querySelectorAll('.cat').forEach(b=>b.classList.remove('active'));el.classList.add('active');currentCat=cat;applyFilter()}
-function filterType(type,el){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));el.classList.add('active');currentType=type;applyFilter()}
-function applyFilter(){
-let list=allVideos;
-if(currentCat!=='All') list=list.filter(v=>v.c.includes(currentCat));
-if(currentType!=='All') list=list.filter(v=>v.v==currentType);
-render(list);
-}
+function filter(cat,el){document.querySelectorAll('.cat').forEach(b=>b.classList.remove('active'));el.classList.add('active');curCat=cat;apply()}
+function filterType(type,el){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));el.classList.add('active');curType=type;apply()}
+function apply(){let l=allVideos;if(curCat!='All')l=l.filter(x=>x.c==curCat);if(curType!='All')l=l.filter(x=>x.v==curType);render(l)}
 function render(list){
 let g=document.getElementById('grid');g.innerHTML='';
-list.forEach((x,i)=>{
-g.innerHTML+=`<div class="card" onclick="play('${x.t}','${x.c}')">
-<div class="thumb" style="background:#000;display:flex;align-items:center;justify-content:center;color:white">${x.v=='short'?'⚡ SHORT':'🎬 LONG'}</div>
-<div class="info"><b>${x.t}</b><small>${x.c} • ${x.u} Views • ${x.v}</small>
-<div class="btns"><button class="dl" onclick="event.stopPropagation();downloadCurrent()">📥 Download</button><button class="like">👍 Like</button></div>
-</div></div>`;
+list.forEach(x=>{
+g.innerHTML+=`<div class="card" onclick="play('${x.t}')">
+<div class="thumb" style="background:linear-gradient(45deg,#ff0000,#0000ff)">
+<div class="bangla-text">${x.t.substring(0,35)}</div>
+<div class="time">${x.time}</div>
+</div>
+<div class="info">
+<div class="avatar"></div>
+<div><b>${x.t}</b><br><small>${x.ch} • ${x.views}</small><br><small style="background:green;padding:2px 6px;border-radius:4px;color:white">Downloaded</small></div>
+</div>
+</div>`;
 });
 }
-function search(q){let v=q.toLowerCase();render(allVideos.filter(x=>x.t.toLowerCase().includes(v))) }
-function play(t,c){
-document.getElementById('player').style.display='block';
-document.getElementById('p-title').innerText=t+' | '+c+' | Headline Formula: '+t;
-}
+function search(q){render(allVideos.filter(x=>x.t.toLowerCase().includes(q.toLowerCase())))}
+function play(t){document.getElementById('player').style.display='block';document.getElementById('p-title').innerText=t;document.getElementById('vid').src=''}
 function upload(e){
-let f=e.target.files[0]; if(!f)return;
-let isShort = f.size < 50*1024*1024 && f.duration < 60? 'short' : 'long';
-let title=prompt("Video Title/Headline লিখুন (5-7 শব্দ, যেমন: কিভাবে 1000 ভিউ পাবেন):",f.name);
+let f=e.target.files[0];if(!f)return;
+let type=f.size<60*1024*1024?'short':'long';
+let title=prompt("YouTube Style Headline লিখুন (Example: ডেলিভারি ম্যানের আসল পরিচয় জেনে অবাক সবাই!):",f.name);
 if(!title)return;
-let cat=prompt("Category? Home/Life/Music/Comedy/News/Travel/Game", "Life");
-let data={t:title,c:cat,v:isShort,u:"0"};
-allVideos.unshift(data);
+let cat=prompt("Category? Drama/Music/Life/Home/Comedy/News/Travel", "Drama");
+let time=type=='short'?'0:45':'15:56';
+allVideos.unshift({t:title,c:cat,v:type,time:time,views:"0 views",ch:"My Channel"});
 render(allVideos);
-alert("✅ Upload Done! Type: "+isShort+" | Category: "+cat+" | Free Download On | Watch & Earn Start!");
+alert("✅ Upload Done!\nCategory: "+cat+"\nType: "+type+"\nHeadline Formula: OK!\nFree Download: ON");
 }
-function downloadCurrent(){alert("📥 Downloading... Gallery তে Save হবে! (Free - No Premium Needed)");}
-function settings(){alert("⚙️ TubeLive Settings:\n1. Data Saver: ON\n2. Quality: Auto (144p-1080p)\n3. Dark Mode: Off\n4. Language: বাংলা\n5. Download: Allow");}
+go();
 </script>
 </body>
 </html>
